@@ -1,0 +1,62 @@
+{
+ "Map": 
+	"Width": 10,
+	"Height": 8,
+	
+	"Background":
+	{
+		"Type": "StageBack01",
+		"BGM": "StageBGM01"
+	},
+	
+	"StartZone": 
+	{	
+		"StartPosition": [ 1, 1 ],
+		"Structure": 
+		{
+			"Type": "StartZone01",
+			"IsCollision": false,
+			"Position": [ 0, 1 ],
+			"Width": 2,
+			"Height": 2
+		}
+	},
+	
+	"EndZone":
+		"EndPosition": [ 10, 3 ],
+		"Structure": 
+		{
+			"Type": "EndZone01",
+			"IsCollision": false,
+			"Position": [ 9, 3 ],
+			"Width": 2,
+			"Height": 2
+		},
+	
+	"Tiles":	
+	[ 
+		{
+			"Type": "HouseTile01",
+			"IsCollision": true,
+			"Position": [ 0, 0 ],
+			"Width": 3,
+			"Height": 1
+		},
+		
+		{
+			"Type": "HouseTile02",
+			"IsCollision": true,
+			"Position": [ 3, 0 ],
+			"Width": 3,
+			"Height": 2
+		},
+		
+		{
+			"Type": "HouseTile03",
+			"IsCollision": true,
+			"Position": [ 6, 0 ],
+			"Width": 4,
+			"Height": 3
+		}
+	]
+}
