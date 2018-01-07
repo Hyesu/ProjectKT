@@ -1,7 +1,9 @@
 {
- "Map": 
-	"Width": 10,
-	"Height": 8,
+    "Map": 
+    {
+	    "Width": 10,
+	    "Height": 8
+    },
 	
 	"Background":
 	{
@@ -23,6 +25,7 @@
 	},
 	
 	"EndZone":
+	{
 		"EndPosition": [ 10, 3 ],
 		"Structure": 
 		{
@@ -31,7 +34,8 @@
 			"Position": [ 9, 3 ],
 			"Width": 2,
 			"Height": 2
-		},
+		}
+	},
 	
 	"Tiles":	
 	[ 
@@ -51,12 +55,12 @@
 			"Height": 2
 		},
 		
-		{
-			"Type": "HouseTile03",
-			"IsCollision": true,
-			"Position": [ 6, 0 ],
-			"Width": 4,
-			"Height": 3
-		}
-	]
+        {
+            "Type": "HouseTile03",
+            "IsCollision": true,
+            "Position": [ 6, 0 ],
+            "Width": 4,
+            "Height": 3
+        }
+    ]
 }
