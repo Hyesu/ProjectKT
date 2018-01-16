@@ -46,7 +46,7 @@ void Actor::Draw()
 
 void Actor::Init() 
 {
-	GetRenderer()->LoadTexture(&m_texture, "../data/image/example_01.jpg");
+	GetRenderer()->LoadTexture(&m_texture, "C:/ProjectKT/data/spine_test/dragon/images/head.png"); //"../data/image/example_01.jpg");
 	InitSkeletalAnim("../data/spine_test/dragon/export/dragon.atlas", "../data/spine_test/dragon/export/dragon-ess.json");
 }
 

@@ -65,5 +65,6 @@ void SkeletalAnimActor::Render()
 			break;
 		}
 		GetRenderer()->Draw(vertexVec, indexVec, texture);
+		//return; // hs_comment: test
 	}
 }

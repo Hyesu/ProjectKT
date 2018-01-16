@@ -69,6 +69,9 @@ HRESULT Renderer::InitD3D(HWND hWnd)
 	// set render state
 	m_d3dDevice->SetRenderState(D3DRS_LIGHTING, false);
 	m_d3dDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	m_d3dDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_d3dDevice->SetRenderState(D3DRS_ALPHAREF, 0x80);
+	m_d3dDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATEREQUAL);
 	
 	return S_OK;
 }
@@ -218,6 +221,11 @@ Renderer* GetRenderer()
 void Renderer::LoadTexture(IDirect3DTexture9** texture, const char* filePath)
 {	
 	D3DXCreateTextureFromFileA(m_d3dDevice, filePath, texture);
+
+	//D3DXIMAGE_INFO info;
+	//D3DXCreateTextureFromFileExA(m_d3dDevice, filePath, D3DX_DEFAULT_NONPOW2, D3DX_DEFAULT_NONPOW2, 1, D3DUSAGE_DYNAMIC,
+	//	D3DFMT_A8R8G8B8, // alpha
+	//	D3DPOOL_DEFAULT, D3DX_FILTER_NONE, D3DX_FILTER_NONE, NULL, &info, NULL, texture);
 }
 
 IDirect3DTexture9* Renderer::LoadTexture(const char* filePath)
