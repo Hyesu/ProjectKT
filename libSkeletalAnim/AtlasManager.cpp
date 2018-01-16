@@ -23,6 +23,7 @@ void AtlasManager::DestroyInstance()
 AtlasManager::~AtlasManager()
 {
 	m_atlasMap.clear();
+	m_atlasAttachmentLoaderMap.clear();
 }
 
 SkeletalAnim::Atlas* AtlasManager::CreateOrGetAtlas(const std::string& atlasPath)
@@ -42,6 +43,17 @@ SkeletalAnim::Atlas* AtlasManager::CreateOrGetAtlas(const std::string& atlasPath
 
 	m_atlasMap[key] = std::unique_ptr<SkeletalAnim::Atlas>(atlas);
 	return atlas;
+}
+
+SkeletalAnim::AtlasAttachmentLoader* AtlasManager::CreateOrGetAtlasAttachmentLoader(const std::string& atlasPath, SkeletalAnim::Atlas* atlas)
+{
+	std::string key = atlasPath; // todo
+	auto it = m_atlasAttachmentLoaderMap.find(key);
+	if (it != m_atlasAttachmentLoaderMap.end())
+		return it->second.get();
+
+	m_atlasAttachmentLoaderMap[key] = std::make_unique<SkeletalAnim::AtlasAttachmentLoader>(*atlas);
+	return m_atlasAttachmentLoaderMap[key].get();
 }
 
 AtlasManager* GetAtlasManager()

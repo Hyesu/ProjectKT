@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{29039F47-3D85-435B-9CB8-2E221C945935}</ProjectGuid>
+    <ProjectGuid>{F1834BFF-824E-4B9D-9655-4E650847CBBB}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>libSkeletalAnim</RootNamespace>
+    <RootNamespace>libRender</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -47,7 +47,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../ExternLib/spine-cpp/include;../libLogger;../libRender;../ExternLib/d3dx9/include;../ExternLib/spine-cpp/third_party;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../ExternLib/d3dx9/Include;../ExternLib/spine-cpp/include;../libSkeletalAnim;../ExternLib/spine-cpp/third_party;../libLogger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -75,24 +75,21 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AtlasManager.h" />
-    <ClInclude Include="SkeletalAnim.h" />
-    <ClInclude Include="SkeletalAnimActor.h" />
-    <ClInclude Include="SkeletonManager.h" />
+    <ClInclude Include="Actor.h" />
+    <ClInclude Include="ActorManager.h" />
+    <ClInclude Include="defines.h" />
+    <ClInclude Include="renderer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ExternLib\spine-cpp\spine-cpp.vcxproj">
-      <Project>{1fa71373-57d3-454e-8529-76a404586d05}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\libLogger\libLogger.vcxproj">
-      <Project>{03261261-1e32-49db-ab05-536d806986aa}</Project>
-    </ProjectReference>
+    <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="ActorManager.cpp" />
+    <ClCompile Include="defines.cpp" />
+    <ClCompile Include="renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AtlasManager.cpp" />
-    <ClCompile Include="SkeletalAnim.cpp" />
-    <ClCompile Include="SkeletalAnimActor.cpp" />
-    <ClCompile Include="SkeletonManager.cpp" />
+    <ProjectReference Include="..\libSkeletalAnim\libSkeletalAnim.vcxproj">
+      <Project>{29039f47-3d85-435b-9cb8-2e221c945935}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

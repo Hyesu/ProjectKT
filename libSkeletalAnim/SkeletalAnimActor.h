@@ -11,6 +11,7 @@ public:
 	~SkeletalAnimActor();
 
 	void Update(float delta);
+	void Render();
 
 	bool IsValid() const;
 

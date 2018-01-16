@@ -1,10 +1,11 @@
-#include "stdafx.h"
 #include "renderer.h"
 #include "ActorManager.h"
+#include "Logger.h"
 
 IMPL_SINGLETONE(Renderer);
 
-HRESULT Renderer::InitD3D(HWND hWnd) {
+HRESULT Renderer::InitD3D(HWND hWnd)
+{
 	// Create the D3D object, which is needed to create the D3DDevice.
 	if (nullptr == (m_pD3D = Direct3DCreate9(D3D_SDK_VERSION)))
 		return E_FAIL;
@@ -35,7 +36,8 @@ HRESULT Renderer::InitD3D(HWND hWnd) {
 	// Create the Direct3D device.
 	if (FAILED(m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
 		nVertexProcessingType,
-		&d3dpp, &m_d3dDevice))) {
+		&d3dpp, &m_d3dDevice))) 
+	{
 		return E_FAIL;
 	}
 	
@@ -71,7 +73,8 @@ HRESULT Renderer::InitD3D(HWND hWnd) {
 	return S_OK;
 }
 
-void Renderer::Cleanup() {
+void Renderer::Cleanup()
+{
 	if (m_d3dDevice != nullptr)
 		m_d3dDevice->Release();
 
@@ -85,7 +88,22 @@ void Renderer::Cleanup() {
 		m_indexBuffer->Release();
 }
 
-void Renderer::Render() {
+void Renderer::Draw(VERTEX_VEC& vertexVec, INDEX_VEC& indexVec, IDirect3DTexture9* texture)
+{
+	printf("4. draw: tex[%p]\n", texture);
+	SetTexture(0, texture);
+
+	if (SetVertexBuffer(vertexVec) == false)
+		return;
+
+	if (SetIndexBuffer(indexVec) == false)
+		return;
+
+	DrawPrimitives((int)vertexVec.size(), (int)indexVec.size());
+}
+
+void Renderer::Render()
+{
 	if (nullptr == m_d3dDevice)
 		return;
 		
@@ -93,7 +111,8 @@ void Renderer::Render() {
 	m_d3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, BACKGOUND_COLOR, 1.0f, 0);
 
 	// Begin the scene
-	if (SUCCEEDED(m_d3dDevice->BeginScene())) {	
+	if (SUCCEEDED(m_d3dDevice->BeginScene())) 
+	{	
 		m_d3dDevice->SetFVF(GLOBAL_FVF);
 		
 		GetActorManager()->Draw();
@@ -108,8 +127,10 @@ void Renderer::Render() {
 	ValidateRect(m_window, nullptr);
 }
 
-bool Renderer::SetVertexBuffer(const VERTEX_VEC& v) {
-	if (m_vertexBuffer == nullptr || m_vertexBufferSize < v.size()) {
+bool Renderer::SetVertexBuffer(const VERTEX_VEC& v)
+{
+	if (m_vertexBuffer == nullptr || m_vertexBufferSize < v.size())
+	{
 		if (m_vertexBuffer != nullptr)
 			m_vertexBuffer->Release();
 
@@ -142,8 +163,10 @@ bool Renderer::SetVertexBuffer(const VERTEX_VEC& v) {
 	return true;
 }
 
-bool Renderer::SetIndexBuffer(const INDEX_VEC& v) {
-	if (m_indexBuffer == nullptr || m_indexBufferSize < v.size()) {
+bool Renderer::SetIndexBuffer(const INDEX_VEC& v) 
+{
+	if (m_indexBuffer == nullptr || m_indexBufferSize < v.size()) 
+	{
 		if (m_indexBuffer != nullptr)
 			m_indexBuffer->Release();
 
@@ -175,25 +198,37 @@ bool Renderer::SetIndexBuffer(const INDEX_VEC& v) {
 	return true;
 }
 
-void Renderer::SetWolrdTransform(const POINT2D& p) {
+void Renderer::SetWolrdTransform(const POINT2D& p)
+{
 	D3DXMATRIX worldMatrix;
 	D3DXVECTOR3 position(p.x, p.y, Z_VALUE);
 	D3DXMatrixTranslation(&worldMatrix, position.x, position.y, position.z);
 	m_d3dDevice->SetTransform(D3DTS_WORLD, &worldMatrix);	
 }
 
-void Renderer::DrawPrimitives(const int numVertices, const int numIndices) {
+void Renderer::DrawPrimitives(const int numVertices, const int numIndices)
+{
 	m_d3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, numVertices, 0, numIndices / 3);
 }
 
-Renderer* GetRenderer() {
+Renderer* GetRenderer()
+{
 	return Renderer::GetInstance();
 }
 
-void Renderer::LoadTexture(LPDIRECT3DTEXTURE9& texture, LPCWSTR filePath) {	
-	D3DXCreateTextureFromFile(m_d3dDevice, filePath, &texture);
+void Renderer::LoadTexture(IDirect3DTexture9** texture, const char* filePath)
+{	
+	D3DXCreateTextureFromFileA(m_d3dDevice, filePath, texture);
 }
 
-void Renderer::SetTexture(DWORD stage, LPDIRECT3DTEXTURE9& texture) {
+IDirect3DTexture9* Renderer::LoadTexture(const char* filePath)
+{
+	IDirect3DTexture9* texture;
+	D3DXCreateTextureFromFileA(m_d3dDevice, filePath, &texture);
+	return texture;
+}
+
+void Renderer::SetTexture(DWORD stage, IDirect3DTexture9* texture)
+{
 	m_d3dDevice->SetTexture(0, texture);
 }

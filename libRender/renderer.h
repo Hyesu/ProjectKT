@@ -4,22 +4,25 @@
 
 struct POINT2D;
 
-class Renderer {
+class Renderer 
+{
 	DECL_SINGLETONE(Renderer);
 
 public:
 	HRESULT InitD3D(HWND hWnd);
 	void Cleanup();
 	void Render();
+	void Draw(VERTEX_VEC& vertexVec, INDEX_VEC& indexVec, IDirect3DTexture9* texture);
 
 	bool SetVertexBuffer(const VERTEX_VEC& v);
 	bool SetIndexBuffer(const INDEX_VEC& v);
 	void SetWolrdTransform(const POINT2D& p);
-	void SetTexture(DWORD stage, LPDIRECT3DTEXTURE9& texture);
+	void SetTexture(DWORD stage, IDirect3DTexture9* texture);
 
 	void DrawPrimitives(const int numVertices, const int numIndices);
 
-	void LoadTexture(LPDIRECT3DTEXTURE9& texture, LPCWSTR filePath);
+	IDirect3DTexture9* LoadTexture(const char* filePath);
+	void LoadTexture(IDirect3DTexture9** texture, const char* filePath);
 
 private:
 	HWND m_window;

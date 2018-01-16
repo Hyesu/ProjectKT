@@ -2,6 +2,7 @@
 #include <vector>
 #include <d3d9.h>
 
+// macro
 #define SAFE_DELETE(x) { \
 	if(x != nullptr) { \
 		delete x; \
@@ -29,18 +30,25 @@ void x::DestroyInstance() { \
 	SAFE_DELETE(m_instance); \
 }
 
+// constant
+const DWORD GLOBAL_FVF = D3DFVF_XYZ | D3DFVF_TEX1; // for color: D3DFVF_DIFFUSE
 static const float Z_VALUE = 1.0f;
 
-struct POINT2D {
+// struct
+struct POINT2D 
+{
 	float x;
 	float y;
-	
+
 	POINT2D() : x(0.0f), y(0.0f) {}
 	POINT2D(float _x, float _y) : x(_x), y(_y) {}
 };
 
-struct Vertex {
+struct Vertex 
+{
 	Vertex() {}
+	Vertex(float x, float y)
+		: _x(x), _y(y) {}
 	Vertex(float x, float y, float u, float v)
 		: _x(x), _y(y), _u(u), _v(v) {}
 	/*Vertex(float x, float y, float z = 0.0f, D3DCOLOR color = D3DCOLOR_XRGB(0, 0, 255))
@@ -52,7 +60,8 @@ struct Vertex {
 	//D3DCOLOR _color = 0; // 32bit color:ARGB
 };
 
-struct SCALE {
+struct SCALE 
+{
 	unsigned int width;
 	unsigned int height;
 
@@ -60,7 +69,6 @@ struct SCALE {
 	SCALE(unsigned int w, unsigned int h) : width(w), height(h) {}
 };
 
+// type def
 typedef std::vector<Vertex> VERTEX_VEC;
 typedef std::vector<WORD> INDEX_VEC;
-
-const DWORD GLOBAL_FVF = D3DFVF_XYZ | D3DFVF_TEX1; // for color: D3DFVF_DIFFUSE

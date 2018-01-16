@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libSkeletalAnim", "libSkele
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libLogger", "libLogger\libLogger.vcxproj", "{03261261-1E32-49DB-AB05-536D806986AA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libRender", "libRender\libRender.vcxproj", "{F1834BFF-824E-4B9D-9655-4E650847CBBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -83,6 +85,20 @@ Global
 		{03261261-1E32-49DB-AB05-536D806986AA}.Release|x64.ActiveCfg = Release|Win32
 		{03261261-1E32-49DB-AB05-536D806986AA}.Release|x86.ActiveCfg = Release|Win32
 		{03261261-1E32-49DB-AB05-536D806986AA}.Release|x86.Build.0 = Release|Win32
+		{F1834BFF-824E-4B9D-9655-4E650847CBBB}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{F1834BFF-824E-4B9D-9655-4E650847CBBB}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{F1834BFF-824E-4B9D-9655-4E650847CBBB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F1834BFF-824E-4B9D-9655-4E650847CBBB}.Debug|Win32.Build.0 = Debug|Win32
+		{F1834BFF-824E-4B9D-9655-4E650847CBBB}.Debug|x64.ActiveCfg = Debug|Win32
+		{F1834BFF-824E-4B9D-9655-4E650847CBBB}.Debug|x86.ActiveCfg = Debug|Win32
+		{F1834BFF-824E-4B9D-9655-4E650847CBBB}.Debug|x86.Build.0 = Debug|Win32
+		{F1834BFF-824E-4B9D-9655-4E650847CBBB}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{F1834BFF-824E-4B9D-9655-4E650847CBBB}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{F1834BFF-824E-4B9D-9655-4E650847CBBB}.Release|Win32.ActiveCfg = Release|Win32
+		{F1834BFF-824E-4B9D-9655-4E650847CBBB}.Release|Win32.Build.0 = Release|Win32
+		{F1834BFF-824E-4B9D-9655-4E650847CBBB}.Release|x64.ActiveCfg = Release|Win32
+		{F1834BFF-824E-4B9D-9655-4E650847CBBB}.Release|x86.ActiveCfg = Release|Win32
+		{F1834BFF-824E-4B9D-9655-4E650847CBBB}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

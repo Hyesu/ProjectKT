@@ -2,6 +2,30 @@
 #include "AtlasManager.h"
 #include "SkeletonManager.h"
 #include "Logger.h"
+#include <fstream>
+
+namespace spine
+{
+	void AtlasPage_disposeTexture(spine::Atlas::Page& page)
+	{
+		IDirect3DTexture9* texture = (IDirect3DTexture9*)page.rendererObject;
+		texture->Release();
+		page.rendererObject = nullptr;
+	}
+
+	void AtlasPage_createTexture(spine::Atlas::Page& page, const char* path)
+	{
+		IDirect3DTexture9* texture = nullptr;
+		GetRenderer()->LoadTexture(&texture, path);
+		page.rendererObject = texture;
+		printf("1. create: path[%s], texture[%p]\n", path, page.rendererObject);
+	}
+
+	std::string Util_readFile(const std::string& path)
+	{
+		return std::string(std::istreambuf_iterator<char>(std::ifstream(path)), std::istreambuf_iterator<char>());
+	}
+}
 
 namespace SkeletalAnim
 {
@@ -16,8 +40,11 @@ namespace SkeletalAnim
 		if (atlas == nullptr)
 			return nullptr;
 
-		AtlasAttachmentLoader atlasAttachmentLoader = AtlasAttachmentLoader(*atlas);
-		SkeletonJson skeletonJson = SkeletonJson(atlasAttachmentLoader);
+		AtlasAttachmentLoader* atlasAttachmentLoader = GetAtlasManager()->CreateOrGetAtlasAttachmentLoader(atlasPath, atlas);
+		if (atlasAttachmentLoader == nullptr)
+			return nullptr;
+
+		SkeletonJson skeletonJson = SkeletonJson(*atlasAttachmentLoader);
 		return GetSkeletonManager()->CreateOrGetSkeletonData(skeletonJson, jsonPath);
 	}
 
@@ -37,5 +64,98 @@ namespace SkeletalAnim
 	void ApplySkeletonToAnimationState(AnimationState* animState, Skeleton* skeleton)
 	{
 		animState->apply(*skeleton);		
+	}
+
+	void UpdateSkeleton(Skeleton* skeleton, float delta)
+	{
+		skeleton->update(delta);
+	}
+
+	void UpdateWorldTransform(Skeleton* skeleton)
+	{
+		skeleton->updateWorldTransform();
+	}
+
+	size_t GetSlotSize(Skeleton* skeleton)
+	{
+		return skeleton->slots.size();
+	}
+
+	Slot* GetSlotByDrawOrder(Skeleton* skeleton, size_t index)
+	{
+		if (index < GetSlotSize(skeleton))
+			return skeleton->drawOrder[index];
+
+		return nullptr;
+	}
+
+	AttachmentType GetAttachmentType(Slot* slot)
+	{
+		auto attachment = slot->getAttachment();
+		if (attachment->type == Attachment::Type::Region)
+			return AttachmentType::REGION;
+		else if (attachment->type == Attachment::Type::Mesh)
+			return AttachmentType::MESH;
+
+		return AttachmentType::NOT_SUPPORT;
+	}
+
+	void ComputeWorldVertices_Region(Slot* slot, VERTEX_VEC& vertices, INDEX_VEC& indices, LPDIRECT3DTEXTURE9& texture)
+	{
+		const RegionAttachment* attachment = (const RegionAttachment*)slot->getAttachment();
+
+		// get vertex
+		static const int NUM_REGION_VERTEX = 8;
+		float tempVertices[NUM_REGION_VERTEX];
+		attachment->computeWorldVertices(slot->bone, tempVertices);
+
+		for (int i = 0; i < 4; ++i)
+		{
+			float x = tempVertices[i * 2];
+			float y = tempVertices[i * 2 + 1];
+			vertices.emplace_back(x, y);
+
+			printf("region compute: x[%f], y[%f]\n", x, y);
+		}
+
+		// uv {1, 1}, {1, 0}, {0, 0}, {0, 1}
+		vertices[0]._u = 1.0f;
+		vertices[0]._v = 1.0f;
+
+		vertices[1]._u = 1.0f;
+		vertices[1]._v = 0.0f;
+
+		vertices[2]._u = 0.0f;
+		vertices[2]._v = 0.0f;
+
+		vertices[3]._u = 0.0f;
+		vertices[3]._v = 1.0f;
+
+		// get index
+		indices.reserve(6);
+		indices = {0, 1, 2, 2, 3, 0};
+
+		// get texture
+		auto page = (Atlas::Page*)attachment->rendererObject;
+		texture = (LPDIRECT3DTEXTURE9)page->rendererObject;
+		printf("2. compute: path[%s], tex[%p]\n", attachment->path.c_str(), texture);
+	}
+
+	void ComputeWorldVertices_Mesh(Slot* slot, VERTEX_VEC& vertices, INDEX_VEC& indices, LPDIRECT3DTEXTURE9& texture)
+	{
+		const MeshAttachment* attachment = (const MeshAttachment*)slot->getAttachment();
+
+		// get vertex
+		float tempVertices[1024];
+		attachment->computeWorldVertices(*slot, tempVertices);		
+		int worldVerticesCount = attachment->worldVerticesCount;
+		for (int i = 0; i < worldVerticesCount; i += 2)
+			vertices.emplace_back(tempVertices[i], tempVertices[i + 1], attachment->uvs[i / 2].x, attachment->uvs[i / 2].y);
+
+		// get index
+		indices.assign(attachment->triangles.begin(), attachment->triangles.end());		
+
+		// get texture
+		texture = (LPDIRECT3DTEXTURE9)attachment->rendererObject;
 	}
 };

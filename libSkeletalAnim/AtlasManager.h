@@ -11,6 +11,7 @@ public:
 	static void DestroyInstance();
 
 	SkeletalAnim::Atlas* CreateOrGetAtlas(const std::string& atlasPath);
+	SkeletalAnim::AtlasAttachmentLoader* CreateOrGetAtlasAttachmentLoader(const std::string& atlasPath, SkeletalAnim::Atlas* atlas);
 
 private:
 	AtlasManager() {}
@@ -18,6 +19,7 @@ private:
 
 	static AtlasManager* m_instance;
 	std::unordered_map<std::string, std::unique_ptr<SkeletalAnim::Atlas>> m_atlasMap;
+	std::unordered_map<std::string, std::unique_ptr<SkeletalAnim::AtlasAttachmentLoader>> m_atlasAttachmentLoaderMap;
 };
 
 AtlasManager* GetAtlasManager();
