@@ -113,21 +113,11 @@ namespace SkeletalAnim
 			float x = tempVertices[i * 2];
 			float y = tempVertices[i * 2 + 1];
 			vertices.emplace_back(x, y);
+
+			vertices[i]._u = attachment->uvs[i].x;
+			vertices[i]._v = attachment->uvs[i].y;
 		}
-
-		// uv {1, 1}, {1, 0}, {0, 0}, {0, 1}
-		vertices[0]._u = 1.0f;
-		vertices[0]._v = 1.0f;
-
-		vertices[1]._u = 1.0f;
-		vertices[1]._v = 0.0f;
-
-		vertices[2]._u = 0.0f;
-		vertices[2]._v = 0.0f;
-
-		vertices[3]._u = 0.0f;
-		vertices[3]._v = 1.0f;
-
+		
 		// get index
 		indices.reserve(6);
 		indices = {0, 1, 2, 2, 3, 0};
