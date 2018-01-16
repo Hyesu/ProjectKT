@@ -89,8 +89,7 @@ void Renderer::Cleanup()
 }
 
 void Renderer::Draw(VERTEX_VEC& vertexVec, INDEX_VEC& indexVec, IDirect3DTexture9* texture)
-{
-	printf("4. draw: tex[%p]\n", texture);
+{	
 	SetTexture(0, texture);
 
 	if (SetVertexBuffer(vertexVec) == false)

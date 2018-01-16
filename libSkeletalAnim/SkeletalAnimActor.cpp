@@ -61,13 +61,9 @@ void SkeletalAnimActor::Render()
 			SkeletalAnim::ComputeWorldVertices_Mesh(slot, vertexVec, indexVec, texture);
 			break;
 		default:
-			printf("--- Not Supported Attachment Type[%d]\n", SkeletalAnim::GetAttachmentType(slot));
+			Log("--- Not Supported Attachment Type[%d]\n", SkeletalAnim::GetAttachmentType(slot));
 			break;
 		}
-
-		printf("3. slot: tex[%p]\n", texture);
 		GetRenderer()->Draw(vertexVec, indexVec, texture);
-
-		return;
 	}
 }

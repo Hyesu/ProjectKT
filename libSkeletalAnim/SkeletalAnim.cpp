@@ -18,7 +18,6 @@ namespace spine
 		IDirect3DTexture9* texture = nullptr;
 		GetRenderer()->LoadTexture(&texture, path);
 		page.rendererObject = texture;
-		printf("1. create: path[%s], texture[%p]\n", path, page.rendererObject);
 	}
 
 	std::string Util_readFile(const std::string& path)
@@ -114,8 +113,6 @@ namespace SkeletalAnim
 			float x = tempVertices[i * 2];
 			float y = tempVertices[i * 2 + 1];
 			vertices.emplace_back(x, y);
-
-			printf("region compute: x[%f], y[%f]\n", x, y);
 		}
 
 		// uv {1, 1}, {1, 0}, {0, 0}, {0, 1}
@@ -136,9 +133,8 @@ namespace SkeletalAnim
 		indices = {0, 1, 2, 2, 3, 0};
 
 		// get texture
-		auto page = (Atlas::Page*)attachment->rendererObject;
-		texture = (LPDIRECT3DTEXTURE9)page->rendererObject;
-		printf("2. compute: path[%s], tex[%p]\n", attachment->path.c_str(), texture);
+		auto region = (Atlas::Region*)attachment->rendererObject;
+		texture = (LPDIRECT3DTEXTURE9)region->page.rendererObject;
 	}
 
 	void ComputeWorldVertices_Mesh(Slot* slot, VERTEX_VEC& vertices, INDEX_VEC& indices, LPDIRECT3DTEXTURE9& texture)
@@ -156,6 +152,7 @@ namespace SkeletalAnim
 		indices.assign(attachment->triangles.begin(), attachment->triangles.end());		
 
 		// get texture
-		texture = (LPDIRECT3DTEXTURE9)attachment->rendererObject;
+		auto region = (Atlas::Region*)attachment->rendererObject;
+		texture = (LPDIRECT3DTEXTURE9)region->page.rendererObject;
 	}
 };
