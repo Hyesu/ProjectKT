@@ -6,6 +6,7 @@
 #include <spinecpp/AtlasAttachmentLoader.h>
 #include <spinecpp/AnimationState.h>
 #include <spinecpp/AnimationStateData.h>
+#include <spinecpp/Animation.h>
 #include <spinecpp/Slot.h>
 #include <spinecpp/Attachment.h>
 #include <spinecpp/RegionAttachment.h>
@@ -30,6 +31,7 @@ namespace SkeletalAnim
 	typedef spine::Atlas Atlas;
 	typedef spine::AtlasAttachmentLoader AtlasAttachmentLoader;
 	typedef spine::AnimationState AnimationState;
+	typedef spine::Animation Animation;
 	typedef spine::AnimationStateData AnimationStateData;
 	typedef spine::Slot Slot;
 	typedef spine::Attachment Attachment;
@@ -59,7 +61,9 @@ namespace SkeletalAnim
 	void ComputeWorldVertices_Region(Slot* slot, VERTEX_VEC& vertices, INDEX_VEC& indices, LPDIRECT3DTEXTURE9& texture);
 	void ComputeWorldVertices_Mesh(Slot* slot, VERTEX_VEC& vertices, INDEX_VEC& indices, LPDIRECT3DTEXTURE9& texture);
 
-	// animation state
+	// animation
 	std::unique_ptr<AnimationState> GetAnimationState(SkeletonData* skeletonData);
 	void UpdateAnimationState(AnimationState* animState, float delta);
+	const Animation* FindAnimation(SkeletonData* skeletonData, const std::string& animName);
+	void ApplyAnimation(Animation* anim, Skeleton* skeleton, float lastTime, float deltaTime, bool loop);
 };

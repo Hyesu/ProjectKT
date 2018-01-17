@@ -6,7 +6,8 @@ SkeletalAnimActor::SkeletalAnimActor(const std::string& atlasPath, const std::st
 {
 	m_skeletonData = SkeletalAnim::GetSkeletonData(atlasPath, jsonPath);
 	m_skeleton = std::make_unique<SkeletalAnim::Skeleton>(*m_skeletonData);
-	m_animState = std::move(SkeletalAnim::GetAnimationState(m_skeletonData.get()));
+
+	PlayAnimation("flying");
 }
 
 SkeletalAnimActor::~SkeletalAnimActor()
@@ -16,9 +17,12 @@ SkeletalAnimActor::~SkeletalAnimActor()
 void SkeletalAnimActor::Update(float delta)
 {
 	SkeletalAnim::UpdateSkeleton(m_skeleton.get(), delta);
+	SkeletalAnim::ApplyAnimation(m_animation, m_skeleton.get(), m_totalAniTime, delta, true);
 	SkeletalAnim::UpdateAnimationState(m_animState.get(), delta);
 	SkeletalAnim::ApplySkeletonToAnimationState(m_animState.get(), m_skeleton.get());
 	SkeletalAnim::UpdateWorldTransform(m_skeleton.get());
+	
+	m_totalAniTime += delta;
 }
 
 bool SkeletalAnimActor::IsValid() const
@@ -66,4 +70,12 @@ void SkeletalAnimActor::Render()
 		}
 		GetRenderer()->Draw(vertexVec, indexVec, texture);
 	}
+}
+
+void SkeletalAnimActor::PlayAnimation(const std::string& animName)
+{
+	m_animState.reset();
+	m_animState = std::move(SkeletalAnim::GetAnimationState(m_skeletonData.get()));
+	m_totalAniTime = 0.0f;
+	m_animation = const_cast<SkeletalAnim::Animation*>(SkeletalAnim::FindAnimation(m_skeletonData.get(), animName));
 }

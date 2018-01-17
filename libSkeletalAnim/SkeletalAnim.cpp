@@ -145,4 +145,15 @@ namespace SkeletalAnim
 		auto region = (Atlas::Region*)attachment->rendererObject;
 		texture = (LPDIRECT3DTEXTURE9)region->page.rendererObject;
 	}
+
+	const Animation* FindAnimation(SkeletonData* skeletonData, const std::string& animName)
+	{
+		return skeletonData->findAnimation(animName.c_str());
+	}
+
+	void ApplyAnimation(Animation* anim, Skeleton* skeleton, float lastTime, float deltaTime, bool loop)
+	{
+		std::vector<const spine::Event*> outEvent;
+		anim->apply(*skeleton, lastTime, lastTime + deltaTime, loop, &outEvent);
+	}
 };
