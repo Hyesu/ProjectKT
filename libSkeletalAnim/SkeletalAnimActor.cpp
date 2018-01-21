@@ -38,7 +38,7 @@ bool SkeletalAnimActor::IsValid() const
 const std::string SkeletalAnimActor::ToString()
 {
 	char temp[1024];
-	sprintf_s(temp, "%s: skelData[%p], skeleton[%p], animState[%p]", typeid(this).name(), m_skeletonData, m_skeleton, m_animState);
+	sprintf_s(temp, "%s: skelData[%p], skeleton[%p], animState[%p]", typeid(this).name(), m_skeletonData.get(), m_skeleton.get(), m_animState.get());
 	return temp;
 }
 

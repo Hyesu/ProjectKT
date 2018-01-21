@@ -44,10 +44,27 @@ void Actor::Draw()
 	GetRenderer()->Draw(m_vertices, m_indices, m_texture);
 }
 
+void ReplaceAllCharacter(std::string& origin, char srcChar, char dstChar)
+{
+	for (size_t i = 0; i < origin.size(); ++i)
+	{
+		if (origin[i] == srcChar)
+			origin[i] = dstChar;
+	}
+}
+
 void Actor::Init() 
 {
-	GetRenderer()->LoadTexture(&m_texture, "C:/ProjectKT/data/spine_test/dragon/images/head.png"); //"../data/image/example_01.jpg");
-	InitSkeletalAnim("../data/spine_test/dragon/export/dragon.atlas", "../data/spine_test/dragon/export/dragon-ess.json");
+	char temp[256];
+	GetCurrentDirectoryA(256, temp);
+	std::string dirPath(temp);
+	ReplaceAllCharacter(dirPath, '\\', '/');
+
+	std::string atlasPath = dirPath + "/../data/spine_test/dragon/export/dragon.atlas";
+	std::string jsonPath = dirPath + "/../data/spine_test/dragon/export/dragon-ess.json";
+
+	GetRenderer()->LoadTexture(&m_texture, "../data/spine_test/dragon/images/head.png");
+	InitSkeletalAnim(atlasPath, jsonPath);
 }
 
 void Actor::InitSkeletalAnim(const std::string& atlasPath, const std::string& jsonPath)

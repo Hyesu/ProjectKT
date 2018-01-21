@@ -54,17 +54,7 @@ HRESULT Renderer::InitD3D(HWND hWnd)
 		
 	// set projection
 	D3DXMATRIX projectionMatrix;
-
-	// perspective
-	/*D3DXMatrixPerspectiveFovLH(&projectionMatrix,
-		D3DX_PI * 0.25f,
-		(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT,
-		1.0f,
-		1000.0f);*/
-
-	// orthogonal
-	D3DXMatrixOrthoLH(&projectionMatrix, (float) SCREEN_WIDTH, (float) SCREEN_HEIGHT, 1.0f, 1000.0f);	
-	m_d3dDevice->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
+	SetProjection_Orthogonal(projectionMatrix, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	// set render state
 	m_d3dDevice->SetRenderState(D3DRS_LIGHTING, false);
@@ -76,19 +66,43 @@ HRESULT Renderer::InitD3D(HWND hWnd)
 	return S_OK;
 }
 
+void Renderer::SetProjection_Perspective(D3DXMATRIX& projectionMatrix, int width, int height)
+{
+	D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI * 0.25f, (float)width / (float)height, 1.0f, 1000.0f);
+	m_d3dDevice->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
+}
+
+void Renderer::SetProjection_Orthogonal(D3DXMATRIX& projectionMatrix, int width, int height)
+{
+	D3DXMatrixOrthoLH(&projectionMatrix, (float)width, (float)height, 1.0f, 1000.0f);
+	m_d3dDevice->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
+}
+
 void Renderer::Cleanup()
 {
 	if (m_d3dDevice != nullptr)
+	{
 		m_d3dDevice->Release();
+		m_d3dDevice = nullptr;
+	}
 
 	if (m_pD3D != nullptr)
+	{
 		m_pD3D->Release();
+		m_pD3D = nullptr;
+	}
 
 	if (m_vertexBuffer != nullptr)
+	{
 		m_vertexBuffer->Release();
+		m_vertexBuffer = nullptr;
+	}
 
 	if (m_indexBuffer != nullptr)
+	{
 		m_indexBuffer->Release();
+		m_indexBuffer = nullptr;
+	}
 }
 
 void Renderer::Draw(VERTEX_VEC& vertexVec, INDEX_VEC& indexVec, IDirect3DTexture9* texture)
@@ -154,11 +168,6 @@ bool Renderer::SetVertexBuffer(const VERTEX_VEC& v)
 	m_vertexBuffer->Lock(0, 0, (void**)&vertices, 0);
 	memcpy_s(vertices, size, &v[0], size);
 
-
-	/*int i = 0;
-	for (auto& it : v)
-		vertices[i++] = Vertex(it.x, it.y);
-*/
 	m_vertexBuffer->Unlock();
 	m_d3dDevice->SetStreamSource(0, m_vertexBuffer, 0, sizeof(Vertex));
 
@@ -190,10 +199,6 @@ bool Renderer::SetIndexBuffer(const INDEX_VEC& v)
 	m_indexBuffer->Lock(0, 0, (void**)&pIndices, 0);
 	memcpy_s(pIndices, size, &v[0], size);
 
-	/*int i = 0;
-	for (auto& it : v)
-		pIndices[i++] = it;
-*/
 	m_indexBuffer->Unlock();
 
 	m_d3dDevice->SetIndices(m_indexBuffer);
@@ -221,11 +226,6 @@ Renderer* GetRenderer()
 void Renderer::LoadTexture(IDirect3DTexture9** texture, const char* filePath)
 {	
 	D3DXCreateTextureFromFileA(m_d3dDevice, filePath, texture);
-
-	//D3DXIMAGE_INFO info;
-	//D3DXCreateTextureFromFileExA(m_d3dDevice, filePath, D3DX_DEFAULT_NONPOW2, D3DX_DEFAULT_NONPOW2, 1, D3DUSAGE_DYNAMIC,
-	//	D3DFMT_A8R8G8B8, // alpha
-	//	D3DPOOL_DEFAULT, D3DX_FILTER_NONE, D3DX_FILTER_NONE, NULL, &info, NULL, texture);
 }
 
 IDirect3DTexture9* Renderer::LoadTexture(const char* filePath)

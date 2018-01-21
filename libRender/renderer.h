@@ -18,6 +18,8 @@ public:
 	bool SetIndexBuffer(const INDEX_VEC& v);
 	void SetWolrdTransform(const POINT2D& p);
 	void SetTexture(DWORD stage, IDirect3DTexture9* texture);
+	void SetProjection_Perspective(D3DXMATRIX& projectionMatrix, int width, int height);
+	void SetProjection_Orthogonal(D3DXMATRIX& projectionMatrix, int width, int height);
 
 	void DrawPrimitives(const int numVertices, const int numIndices);
 
