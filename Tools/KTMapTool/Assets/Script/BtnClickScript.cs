@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 
 public class BtnClickScript : MonoBehaviour 
 {
@@ -13,11 +12,8 @@ public class BtnClickScript : MonoBehaviour
 		//Debug.Log ("LoadBtnClicked: " + _loadEdit.text);
 
 		if (_loadEdit.text == "") 
-		{
-			EditorUtility.DisplayDialog ("alert", "stage name must be not empty string!", "Yes", "No");
 			return;
-		}
-
+		
 		GameObject xmlParser = GameObject.Find ("XmlParser");
 		XmlParser _xmlParser = xmlParser.GetComponent<XmlParser> ();
 		_xmlParser.LoadStage (_loadEdit.text);
@@ -30,11 +26,8 @@ public class BtnClickScript : MonoBehaviour
 		//Debug.Log ("LoadBtnClicked: " + _loadEdit.text);
 
 		if (_loadEdit.text == "") 
-		{
-			EditorUtility.DisplayDialog ("alert", "stage name must be not empty string!", "Yes", "No");
 			return;
-		}
-
+		
 		GameObject xmlParser = GameObject.Find ("XmlParser");
 		XmlParser _xmlParser = xmlParser.GetComponent<XmlParser> ();
 		_xmlParser.SaveStage (_loadEdit.text);
