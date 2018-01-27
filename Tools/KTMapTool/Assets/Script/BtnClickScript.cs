@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class BtnClickScript : MonoBehaviour 
 {
@@ -9,15 +10,33 @@ public class BtnClickScript : MonoBehaviour
 	{
 		GameObject loadEdit = GameObject.Find ("LoadEdit");
 		InputField _loadEdit = loadEdit.GetComponent<InputField> ();
-		Debug.Log ("Load btn clicked: " + _loadEdit.text);
+		//Debug.Log ("LoadBtnClicked: " + _loadEdit.text);
 
-		GameObject jsonParser = GameObject.Find ("JsonParser");
-		JsonParser _jsonParser = jsonParser.GetComponent<JsonParser> ();
-		_jsonParser.LoadFrom (_loadEdit.text);
+		if (_loadEdit.text == "") 
+		{
+			EditorUtility.DisplayDialog ("alert", "stage name must be not empty string!", "Yes", "No");
+			return;
+		}
+
+		GameObject xmlParser = GameObject.Find ("XmlParser");
+		XmlParser _xmlParser = xmlParser.GetComponent<XmlParser> ();
+		_xmlParser.LoadStage (_loadEdit.text);
 	}
 
 	public void SaveBtnClicked()
 	{
-		Debug.Log ("save clicked!");
+		GameObject loadEdit = GameObject.Find ("LoadEdit");
+		InputField _loadEdit = loadEdit.GetComponent<InputField> ();
+		//Debug.Log ("LoadBtnClicked: " + _loadEdit.text);
+
+		if (_loadEdit.text == "") 
+		{
+			EditorUtility.DisplayDialog ("alert", "stage name must be not empty string!", "Yes", "No");
+			return;
+		}
+
+		GameObject xmlParser = GameObject.Find ("XmlParser");
+		XmlParser _xmlParser = xmlParser.GetComponent<XmlParser> ();
+		_xmlParser.SaveStage (_loadEdit.text);
 	}
 }
