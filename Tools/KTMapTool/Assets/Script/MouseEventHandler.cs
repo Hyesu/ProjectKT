@@ -9,20 +9,19 @@ public class MouseEventHandler : MonoBehaviour, IPointerDownHandler
 	private const int CELL_SIZE = 40;
 
 	// shortcuts
-	ScrollRect m_scrollview;
+    Image m_bgPanel;
 	ViewManager m_viewMgr;
 	StageDataManager m_dataMgr;
 
 	void Start()
 	{
-		m_scrollview = GameObject.Find ("GameScrollView").GetComponent<ScrollRect> ();
-		m_viewMgr = m_scrollview.GetComponent<ViewManager> ();
+        m_bgPanel = GameObject.Find ("BGPanel").GetComponent<Image> ();
+		m_viewMgr = m_bgPanel.GetComponent<ViewManager> ();
 		m_dataMgr = GameObject.Find ("StageData").GetComponent<StageDataManager> ();
 	}
 
 	public void OnPointerDown(PointerEventData eventData)
-	{
-		//Debug.Log ("mouse click: pos[" + eventData.position.x + ", " + eventData.position.y + "], type[" + eventData.pointerId + "]");
+	{		
 		if (eventData.button == PointerEventData.InputButton.Right) // right btn clicked
 			OnRBtnDown (eventData);
 		else if (eventData.button == PointerEventData.InputButton.Left)			
@@ -31,7 +30,6 @@ public class MouseEventHandler : MonoBehaviour, IPointerDownHandler
 
 	private void OnRBtnDown(PointerEventData eventData)
 	{
-		Debug.Log ("right clicked");
 		int objIndex = m_dataMgr.CreateObject (eventData.position);
 
 		string panelName = "Panel_" + objIndex.ToString ();
@@ -43,7 +41,7 @@ public class MouseEventHandler : MonoBehaviour, IPointerDownHandler
 		image.rectTransform.sizeDelta = new Vector2 (CELL_SIZE, CELL_SIZE);
 		image.color = Color.white;
 
-		newPanel.transform.SetParent (m_scrollview.transform, false);
+		newPanel.transform.SetParent (m_bgPanel.transform, false);
 		newPanel.transform.position = eventData.position;
 
 		m_viewMgr.SetActivatePanel (newPanel);

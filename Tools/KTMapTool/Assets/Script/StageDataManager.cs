@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class ObjectInfo
 {	
 	public Vector2 pos;
+	public int offsetX, offsetY;
 	public string type;
 
 	public  ObjectInfo(Vector2 pos)
@@ -32,37 +33,47 @@ public class StageDataManager : MonoBehaviour
 	InputField m_widthEdit;
 	InputField m_heightEdit;
 	InputField m_bgTextureEdit;
+    ViewManager m_viewMgr;
 
 	void Start()
 	{
 		m_widthEdit = GameObject.Find ("WidthEdit").GetComponent<InputField> ();
 		m_heightEdit = GameObject.Find ("HeightEdit").GetComponent<InputField> ();
 		m_bgTextureEdit = GameObject.Find ("BGTextureEdit").GetComponent<InputField> ();
+        m_viewMgr = GameObject.Find("BGPanel").GetComponent<ViewManager>();
 	}
+
+    private void InitByDefault()
+    {
+        m_width = 500;
+        m_height = 500;
+        m_widthEdit.text = m_width.ToString();
+        m_heightEdit.text = m_height.ToString();
+
+        m_viewMgr.ResizeBGPanel(m_width, m_height);
+    }
 
 	public void LoadStageCommonConfig(XmlNode stageNode)
 	{
-		//width
+		// size
 		m_width = Int32.Parse(stageNode.Attributes["width"].Value);
-		m_widthEdit.text = m_width.ToString();
-
-		// height
 		m_height = Int32.Parse(stageNode.Attributes["height"].Value);
+		m_widthEdit.text = m_width.ToString();
 		m_heightEdit.text = m_height.ToString();
 
 		// back ground texture
 		m_bgTextureFileName = stageNode.Attributes["bg_texture"].Value;
 		m_bgTextureEdit.text = m_bgTextureFileName;
+
+        m_viewMgr.ResizeBGPanel(m_width, m_height);
 	}
 
 	public void SaveStageCommonConfig(XmlNode stageNode)
 	{
-		//width
+		// size
 		m_width = Int32.Parse(m_widthEdit.text);
-		stageNode.Attributes ["width"].Value = m_width.ToString();
-
-		// height
 		m_height = Int32.Parse(m_heightEdit.text);
+		stageNode.Attributes ["width"].Value = m_width.ToString();
 		stageNode.Attributes ["height"].Value = m_height.ToString();
 
 		// back ground texture
@@ -81,4 +92,12 @@ public class StageDataManager : MonoBehaviour
 	{
 		return m_objList[index];
 	}
+
+    public void SetSize(int width, int height)
+    {
+        m_width = width;
+        m_height = height;
+
+        m_viewMgr.ResizeBGPanel(m_width, m_height);
+    }
 }

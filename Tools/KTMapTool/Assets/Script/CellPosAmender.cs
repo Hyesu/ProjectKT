@@ -9,27 +9,32 @@ public class CellPosAmender : MonoBehaviour
 	public bool m_amended = false;
 	public int m_index = 0;
 
-	StageDataManager dataMgr;
+	StageDataManager m_dataMgr;
+    MessageBox m_msgBox;
 
 	void Start()
 	{
-		dataMgr = GameObject.Find ("StageData").GetComponent<StageDataManager> ();
+        m_dataMgr = GameObject.Find ("StageData").GetComponent<StageDataManager> ();
+        m_msgBox = GameObject.Find("MessageBox").GetComponent<MessageBox>();
 	}
 
 	public void AmendActivatePanelPos(GameObject activatePanel)
 	{
-		if (dataMgr == null)
+		if (m_dataMgr == null)
 			return;
 
-		ObjectInfo objInfo = dataMgr.GetObjectInfoByIndex (m_index);
+		ObjectInfo objInfo = m_dataMgr.GetObjectInfoByIndex (m_index);
 		if (objInfo == null) 
 		{
-			Debug.Log ("Assert: index[" + m_index + "]");
+            m_msgBox.Show("Assert: index[" + m_index + "]");
 			return;
 		}
 
-		int amendX = (int)objInfo.pos.x / CELL_SIZE * CELL_SIZE + CELL_SIZE / 2;
-		int amendY = (int)objInfo.pos.y / CELL_SIZE * CELL_SIZE + CELL_SIZE / 2;
+		objInfo.offsetX = (int)objInfo.pos.x / CELL_SIZE;
+		objInfo.offsetY = (int)objInfo.pos.y / CELL_SIZE;
+
+		int amendX = objInfo.offsetX * CELL_SIZE + CELL_SIZE / 2;
+		int amendY = objInfo.offsetY * CELL_SIZE + CELL_SIZE / 2;
 		objInfo.pos.x = (float)amendX;
 		objInfo.pos.y = (float)amendY;
 
