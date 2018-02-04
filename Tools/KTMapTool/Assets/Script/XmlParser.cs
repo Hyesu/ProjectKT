@@ -50,15 +50,30 @@ public class XmlParser : MonoBehaviour
 		GameObject stageData = GameObject.Find ("StageData");
 		StageDataManager dataMgr = stageData.GetComponent<StageDataManager> ();
 
-		StreamReader reader = new StreamReader (stageFilePath);
+        if (File.Exists(stageFilePath) == false)
+            CreateEmptyXmlFile(stageFilePath, "Stage");
+
+        StreamReader reader = new StreamReader (stageFilePath);
 		string fileContents = reader.ReadToEnd ();
 		reader.Close ();
 
 		XmlDocument xmlDoc = new XmlDocument ();
 		xmlDoc.LoadXml (fileContents);
-		XmlNode stageNode = xmlDoc.DocumentElement;
-		dataMgr.SaveStageCommonConfig (stageNode);
+		XmlElement stageElem = xmlDoc.DocumentElement;
+		dataMgr.SaveStageCommonConfig (stageElem);
 
 		xmlDoc.Save (stageFilePath);
 	}
+
+    private void CreateEmptyXmlFile(string filePath, string rootName)
+    {
+        XmlDocument doc = new XmlDocument();
+        XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
+        doc.AppendChild(xmlDeclaration);
+
+        XmlElement root = doc.CreateElement(rootName);
+        doc.AppendChild(root);
+
+        File.WriteAllText(filePath, doc.OuterXml);
+    }
 }

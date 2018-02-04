@@ -68,18 +68,26 @@ public class StageDataManager : MonoBehaviour
         m_viewMgr.ResizeBGPanel(m_width, m_height);
 	}
 
-	public void SaveStageCommonConfig(XmlNode stageNode)
+	public void SaveStageCommonConfig(XmlElement stageElem)
 	{
 		// size
 		m_width = Int32.Parse(m_widthEdit.text);
 		m_height = Int32.Parse(m_heightEdit.text);
-		stageNode.Attributes ["width"].Value = m_width.ToString();
-		stageNode.Attributes ["height"].Value = m_height.ToString();
+        stageElem.SetAttribute("width", m_width.ToString());
+        stageElem.SetAttribute("height", m_height.ToString());
+        //stageNode.Attributes ["width"].Value = m_width.ToString();
+        //stageNode.Attributes ["height"].Value = m_height.ToString();        
 
-		// back ground texture
-		m_bgTextureFileName = m_bgTextureEdit.text;
-		stageNode.Attributes["bg_texture"].Value = m_bgTextureFileName;
+        // back ground texture
+        m_bgTextureFileName = m_bgTextureEdit.text;
+        stageElem.SetAttribute("bg_texture", m_bgTextureFileName);
+        //stageNode.Attributes["bg_texture"].Value = m_bgTextureFileName;
 	}
+
+    public void SaveStageObjectInfo(XmlNode objNode)
+    {
+
+    }
 
 	public int CreateObject(Vector2 pos)
 	{

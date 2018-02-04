@@ -33,6 +33,8 @@ public class CellPosAmender : MonoBehaviour
 		objInfo.offsetX = (int)objInfo.pos.x / CELL_SIZE;
 		objInfo.offsetY = (int)objInfo.pos.y / CELL_SIZE;
 
+        Debug.Log("x: " + objInfo.offsetX + ", y:" + objInfo.offsetY);
+
 		int amendX = objInfo.offsetX * CELL_SIZE + CELL_SIZE / 2;
 		int amendY = objInfo.offsetY * CELL_SIZE + CELL_SIZE / 2;
 		objInfo.pos.x = (float)amendX;
