@@ -13,7 +13,7 @@ public class BtnClickScript : MonoBehaviour
         InputField loadEdit = GameObject.Find ("LoadEdit").GetComponent<InputField> ();
 		if (loadEdit.text == "")
         {
-            Alert("Please input stage file name!");
+            MessageBox.Alert("Please input stage file name!");
 			return;
         }
 
@@ -26,7 +26,7 @@ public class BtnClickScript : MonoBehaviour
         InputField loadEdit = GameObject.Find ("LoadEdit").GetComponent<InputField> ();
 		if (loadEdit.text == "")
         {
-            Alert("Please input stage file name!");
+            MessageBox.Alert("Please input stage file name!");
             return;
         }
 
@@ -39,7 +39,7 @@ public class BtnClickScript : MonoBehaviour
         InputField widthEdit = GameObject.Find("WidthEdit").GetComponent<InputField>();
         if(widthEdit.text == "")
         {
-            Alert("Please input width!");
+            MessageBox.Alert("Please input width!");
             return;
         }
         int width = Int32.Parse(widthEdit.text);
@@ -47,20 +47,12 @@ public class BtnClickScript : MonoBehaviour
         InputField heightEdit = GameObject.Find("HeightEdit").GetComponent<InputField>();
         if(heightEdit.text == "")
         {
-            Alert("Please input height!");
+            MessageBox.Alert("Please input height!");
             return;
         }
         int height = Int32.Parse(heightEdit.text);
 
         StageDataManager dataMgr = GameObject.Find("StageData").GetComponent<StageDataManager>();
         dataMgr.SetSize(width, height);
-    }
-
-    private void Alert(string info)
-    {   
-        if (m_msgBox == null)
-            m_msgBox = (MessageBox)Resources.FindObjectsOfTypeAll(typeof(MessageBox))[0];
-        
-        m_msgBox.Show(info);
-    }
+    }    
 }

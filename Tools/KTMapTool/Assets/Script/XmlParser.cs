@@ -26,7 +26,7 @@ public class XmlParser : MonoBehaviour
 
 		GameObject stageData = GameObject.Find ("StageData");
 		StageDataManager dataMgr = stageData.GetComponent<StageDataManager> ();
-
+        
 		StreamReader reader = new StreamReader (stageFilePath);
 		string fileContents = reader.ReadToEnd ();
 		reader.Close ();
