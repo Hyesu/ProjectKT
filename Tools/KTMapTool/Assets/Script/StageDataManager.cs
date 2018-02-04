@@ -26,6 +26,9 @@ public class StageDataManager : MonoBehaviour
 	private int m_width = 0;
 	private int m_height = 0;
 
+    const int DEFAULT_WIDTH = 500;
+    const int DEFAULT_HEIGHT = 500;
+
 	// object
 	List<ObjectInfo> m_objList = new List<ObjectInfo>();
 
@@ -42,11 +45,10 @@ public class StageDataManager : MonoBehaviour
 		m_bgTextureEdit = GameObject.Find ("BGTextureEdit").GetComponent<InputField> ();
         m_viewMgr = GameObject.Find("BGPanel").GetComponent<ViewManager>();
 	}
-
     private void InitByDefault()
     {
-        m_width = 500;
-        m_height = 500;
+        m_width = DEFAULT_WIDTH;
+        m_height = DEFAULT_HEIGHT;
         m_widthEdit.text = m_width.ToString();
         m_heightEdit.text = m_height.ToString();
 
@@ -75,18 +77,22 @@ public class StageDataManager : MonoBehaviour
 		m_height = Int32.Parse(m_heightEdit.text);
         stageElem.SetAttribute("width", m_width.ToString());
         stageElem.SetAttribute("height", m_height.ToString());
-        //stageNode.Attributes ["width"].Value = m_width.ToString();
-        //stageNode.Attributes ["height"].Value = m_height.ToString();        
 
         // back ground texture
         m_bgTextureFileName = m_bgTextureEdit.text;
         stageElem.SetAttribute("bg_texture", m_bgTextureFileName);
-        //stageNode.Attributes["bg_texture"].Value = m_bgTextureFileName;
 	}
-
-    public void SaveStageObjectInfo(XmlNode objNode)
+    public void SaveStageObjectInfo(XmlDocument doc, XmlElement stageElem)
     {
-
+        int index = 0;
+        foreach(ObjectInfo objinfo in m_objList)
+        {
+            ++index;
+            XmlElement objElem = (XmlElement)stageElem.AppendChild(doc.CreateElement("Object"));
+            objElem.SetAttribute("id", index.ToString());
+            objElem.SetAttribute("x", objinfo.offsetX.ToString());
+            objElem.SetAttribute("y", objinfo.offsetY.ToString());
+        }
     }
 
 	public int CreateObject(Vector2 pos)

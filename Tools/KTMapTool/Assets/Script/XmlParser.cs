@@ -49,9 +49,11 @@ public class XmlParser : MonoBehaviour
 
 		GameObject stageData = GameObject.Find ("StageData");
 		StageDataManager dataMgr = stageData.GetComponent<StageDataManager> ();
+        
+        if (File.Exists(stageFilePath))
+            File.Delete(stageFilePath);
 
-        if (File.Exists(stageFilePath) == false)
-            CreateEmptyXmlFile(stageFilePath, "Stage");
+        CreateEmptyXmlFile(stageFilePath, "Stage");
 
         StreamReader reader = new StreamReader (stageFilePath);
 		string fileContents = reader.ReadToEnd ();
@@ -61,6 +63,7 @@ public class XmlParser : MonoBehaviour
 		xmlDoc.LoadXml (fileContents);
 		XmlElement stageElem = xmlDoc.DocumentElement;
 		dataMgr.SaveStageCommonConfig (stageElem);
+        dataMgr.SaveStageObjectInfo(xmlDoc, stageElem);
 
 		xmlDoc.Save (stageFilePath);
 	}
