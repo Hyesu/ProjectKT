@@ -7,11 +7,11 @@ using UnityEngine.UI;
 public class ViewManager : MonoBehaviour 
 {
 	private GameObject m_currentActivatePanel = null;
-    private Image m_BGPanel = null;
+    private Image m_bgPanel = null;
 
     void Start()
     {
-        m_BGPanel = GameObject.Find("BGPanel").GetComponent<Image>();
+        m_bgPanel = GameObject.Find("BGPanel").GetComponent<Image>();
     }
 
 	void Update () 
@@ -33,11 +33,35 @@ public class ViewManager : MonoBehaviour
 
     public void ResizeBGPanel(int destWidth, int destHeight)
     {
-        //int curWidth = (int)(m_BGPanel.rectTransform.rect.right - m_BGPanel.rectTransform.rect.left);
-        //int curHeight = (int)(m_BGPanel.rectTransform.rect.top - m_BGPanel.rectTransform.rect.bottom);
-        //float widthDelta = destWidth - curWidth;
-        //float heightDelta = destHeight - curHeight;
+        m_bgPanel.rectTransform.sizeDelta = new Vector2(destWidth, destHeight);
+    }
+    
+    public void CreateObjectTile(int objIndex, Vector2 position)
+    {
+        string panelName = "Panel_" + objIndex.ToString();
+        GameObject newPanel = new GameObject(panelName);
+        CellPosAmender cellPosAmender = newPanel.AddComponent<CellPosAmender>();
+        cellPosAmender.m_index = objIndex;
 
-        m_BGPanel.rectTransform.sizeDelta = new Vector2(destWidth, destHeight);
+        Image image = newPanel.AddComponent<Image>();
+        image.rectTransform.sizeDelta = new Vector2(CellPosAmender.CELL_SIZE, CellPosAmender.CELL_SIZE);
+        image.color = Color.white;
+
+        newPanel.transform.SetParent(m_bgPanel.transform, false);
+        newPanel.transform.position = position;
+
+        SetActivatePanel(newPanel);
+    }
+
+    public void ResetTiles()
+    {
+        foreach (Transform child in m_bgPanel.transform)
+            GameObject.Destroy(child.gameObject);
+    }
+
+    public void SetBGTexture(string textureFileName)
+    {
+        string filePath = "Image/" + textureFileName.Substring(0, textureFileName.IndexOf("."));
+        m_bgPanel.sprite = Resources.Load<Sprite>(filePath);        
     }
 }

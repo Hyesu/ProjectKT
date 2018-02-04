@@ -6,9 +6,7 @@ using UnityEngine.UI;
 
 public class BtnClickScript : MonoBehaviour 
 {
-    MessageBox m_msgBox;
-
-	public void LoadBtnClicked() 
+    public void LoadBtnClicked() 
 	{
         InputField loadEdit = GameObject.Find ("LoadEdit").GetComponent<InputField> ();
 		if (loadEdit.text == "")
@@ -54,5 +52,18 @@ public class BtnClickScript : MonoBehaviour
 
         StageDataManager dataMgr = GameObject.Find("StageData").GetComponent<StageDataManager>();
         dataMgr.SetSize(width, height);
+
+        InputField bgTextureEdit = GameObject.Find("BGTextureEdit").GetComponent<InputField>();
+        if(bgTextureEdit.text != "")
+        {         
+            ViewManager viewMgr = GameObject.Find("BGPanel").GetComponent<Image>().GetComponent<ViewManager>();
+            viewMgr.SetBGTexture(bgTextureEdit.text);
+        }
     }    
+
+    public void ResetBtnClicked()
+    {
+        ViewManager viewMgr = GameObject.Find("BGPanel").GetComponent<Image>().GetComponent<ViewManager>();
+        viewMgr.ResetTiles();
+    }
 }

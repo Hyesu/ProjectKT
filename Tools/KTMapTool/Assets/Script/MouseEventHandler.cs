@@ -6,8 +6,6 @@ using UnityEngine.EventSystems;
 
 public class MouseEventHandler : MonoBehaviour, IPointerDownHandler
 {
-	private const int CELL_SIZE = 40;
-
 	// shortcuts
     Image m_bgPanel;
 	ViewManager m_viewMgr;
@@ -31,24 +29,11 @@ public class MouseEventHandler : MonoBehaviour, IPointerDownHandler
 	private void OnRBtnDown(PointerEventData eventData)
 	{
 		int objIndex = m_dataMgr.CreateObject (eventData.position);
-
-		string panelName = "Panel_" + objIndex.ToString ();
-		GameObject newPanel = new GameObject (panelName);
-		CellPosAmender cellPosAmender = newPanel.AddComponent<CellPosAmender> ();
-		cellPosAmender.m_index = objIndex;
-
-		Image image = newPanel.AddComponent<Image> ();
-		image.rectTransform.sizeDelta = new Vector2 (CELL_SIZE, CELL_SIZE);
-		image.color = Color.white;
-
-		newPanel.transform.SetParent (m_bgPanel.transform, false);
-		newPanel.transform.position = eventData.position;
-
-		m_viewMgr.SetActivatePanel (newPanel);
+        m_viewMgr.CreateObjectTile(objIndex, eventData.position);
 	}
 
 	private void OnLBtnDown(PointerEventData eventData)
 	{
-		Debug.Log ("left clicked");
+		Debug.Log ("left clicked: not implemented. todo: select an object, activate it(maybe need outline?), and show detail view for it");
 	}
 }

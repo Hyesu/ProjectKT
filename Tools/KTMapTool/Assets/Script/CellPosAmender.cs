@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class CellPosAmender : MonoBehaviour 
 {
-	private const int CELL_SIZE = 40;
+	public static int CELL_SIZE = 40;
 	public bool m_amended = false;
 	public int m_index = 0;
 
@@ -32,8 +32,6 @@ public class CellPosAmender : MonoBehaviour
 
 		objInfo.offsetX = (int)objInfo.pos.x / CELL_SIZE;
 		objInfo.offsetY = (int)objInfo.pos.y / CELL_SIZE;
-
-        Debug.Log("x: " + objInfo.offsetX + ", y:" + objInfo.offsetY);
 
 		int amendX = objInfo.offsetX * CELL_SIZE + CELL_SIZE / 2;
 		int amendY = objInfo.offsetY * CELL_SIZE + CELL_SIZE / 2;

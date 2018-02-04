@@ -9,20 +9,21 @@ using UnityEngine.UI;
 
 public class XmlParser : MonoBehaviour 
 {
-	private string GetDataFilePath(string subDir, string fileName, string extension)
+	public static string GetDataFilePath(string subDir, string fileName, string extension)
 	{
 		string rootDirName = "ProjectKT";
 		string dataPath = Application.dataPath.Substring (0, Application.dataPath.IndexOf (rootDirName) + rootDirName.Length);
 		string fileDir = dataPath + "/Data/" + subDir + "/";
-		string filePath = fileDir + fileName + "." + extension;
+        string filePath = fileDir + fileName;
+        if(extension.Length > 0)
+            filePath = filePath + "." + extension;
 
 		return filePath;
 	}
 
 	public void LoadStage(string stageFileName)
 	{		
-		string stageFilePath = GetDataFilePath ("Stage", stageFileName, "xml");
-		Debug.Log ("LoadStage: " + stageFilePath);
+		string stageFilePath = GetDataFilePath ("Stage", stageFileName, "xml");		
 
 		GameObject stageData = GameObject.Find ("StageData");
 		StageDataManager dataMgr = stageData.GetComponent<StageDataManager> ();
@@ -35,18 +36,13 @@ public class XmlParser : MonoBehaviour
 		xmlDoc.LoadXml (fileContents);
 		XmlNode stageNode = xmlDoc.DocumentElement;
 		dataMgr.LoadStageCommonConfig (stageNode);
-
-		if (stageNode.HasChildNodes) 
-		{
-			// child processing
-		}
+        if (stageNode.HasChildNodes)
+            dataMgr.LoadStageObjectInfo(stageNode);
 	}
 
 	public void SaveStage(string stageFileName)
 	{
 		string stageFilePath = GetDataFilePath ("Stage", stageFileName, "xml");
-		Debug.Log ("SaveStage: " + stageFilePath);
-
 		GameObject stageData = GameObject.Find ("StageData");
 		StageDataManager dataMgr = stageData.GetComponent<StageDataManager> ();
         

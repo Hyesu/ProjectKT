@@ -17,6 +17,12 @@ public class ObjectInfo
 		this.pos = pos;
 		this.type = "null";
 	}
+
+    public void SetOffset(int x, int y)
+    {
+        offsetX = x;
+        offsetY = y;
+    }
 }
 
 public class StageDataManager : MonoBehaviour 
@@ -66,9 +72,25 @@ public class StageDataManager : MonoBehaviour
 		// back ground texture
 		m_bgTextureFileName = stageNode.Attributes["bg_texture"].Value;
 		m_bgTextureEdit.text = m_bgTextureFileName;
-
+        
         m_viewMgr.ResizeBGPanel(m_width, m_height);
+        m_viewMgr.SetBGTexture(m_bgTextureEdit.text);
 	}
+    public void LoadStageObjectInfo(XmlNode stageNode)
+    {
+        m_objList.Clear();
+        foreach(XmlElement objElem in stageNode)
+        {
+            int x = Int32.Parse(objElem.GetAttribute("x"));
+            int y = Int32.Parse(objElem.GetAttribute("y"));
+            Vector2 position = new Vector2(x * CellPosAmender.CELL_SIZE, y * CellPosAmender.CELL_SIZE);
+            ObjectInfo objInfo = new ObjectInfo(position);
+            objInfo.SetOffset(x, y);
+            m_objList.Add(objInfo);            
+        }
+
+        DrawObjects();
+    }
 
 	public void SaveStageCommonConfig(XmlElement stageElem)
 	{
@@ -113,5 +135,21 @@ public class StageDataManager : MonoBehaviour
         m_height = height;
 
         m_viewMgr.ResizeBGPanel(m_width, m_height);
+    }
+
+    public void DrawObjects()
+    {
+        int index = 0;
+        foreach(ObjectInfo objInfo in m_objList)
+        {
+            m_viewMgr.CreateObjectTile(index, objInfo.pos);
+            ++index;
+        }
+    }
+
+    public void Reset()
+    {
+        m_objList.Clear();
+        DrawObjects();
     }
 }
