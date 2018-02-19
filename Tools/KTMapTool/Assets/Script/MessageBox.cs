@@ -5,11 +5,18 @@ using UnityEngine.UI;
 
 public class MessageBox : MonoBehaviour
 {
-    static MessageBox m_instance = null;
-    
+    static MessageBox m_instance = null;    
+    public static MessageBox GetInstance()
+    {
+        if(m_instance == null)
+            m_instance = GameObject.Find("MessageBox").GetComponent<MessageBox>();
+
+        return m_instance;
+    }
+
     public static void Alert(string info)
     {
-        m_instance.Show(info);
+        MessageBox.GetInstance().Show(info);
     }
 
     GameObject m_ownerObj;

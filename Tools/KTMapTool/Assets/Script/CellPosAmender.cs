@@ -8,25 +8,13 @@ public class CellPosAmender : MonoBehaviour
 	public static int CELL_SIZE = 40;
 	public bool m_amended = false;
 	public int m_index = 0;
-
-	StageDataManager m_dataMgr;
-    MessageBox m_msgBox;
-
-	void Start()
-	{
-        m_dataMgr = GameObject.Find ("StageData").GetComponent<StageDataManager> ();
-        m_msgBox = GameObject.Find("MessageBox").GetComponent<MessageBox>();
-	}
-
+    
 	public void AmendActivatePanelPos(GameObject activatePanel)
 	{
-		if (m_dataMgr == null)
-			return;
-
-		ObjectInfo objInfo = m_dataMgr.GetObjectInfoByIndex (m_index);
+		ObjectInfo objInfo = StageDataManager.GetInstance().GetObjectInfoByIndex (m_index);
 		if (objInfo == null) 
 		{
-            m_msgBox.Show("Assert: index[" + m_index + "]");
+            MessageBox.GetInstance().Show("Assert: index[" + m_index + "]");
 			return;
 		}
 

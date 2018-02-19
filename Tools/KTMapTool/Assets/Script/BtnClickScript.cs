@@ -66,4 +66,9 @@ public class BtnClickScript : MonoBehaviour
         ViewManager viewMgr = GameObject.Find("BGPanel").GetComponent<Image>().GetComponent<ViewManager>();
         viewMgr.ResetTiles();
     }
+
+    public void DetailApplyBtnClicked()
+    {
+        StageDataManager.GetInstance().ApplyDetailInfo();
+    }
 }

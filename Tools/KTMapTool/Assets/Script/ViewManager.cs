@@ -9,6 +9,15 @@ public class ViewManager : MonoBehaviour
 	private GameObject m_currentActivatePanel = null;
     private Image m_bgPanel = null;
 
+    public static ViewManager m_instance = null;
+    public static ViewManager GetInstance()
+    {
+        if (m_instance == null)
+            m_instance = GameObject.Find("BGPanel").GetComponent<ViewManager>();
+
+        return m_instance;
+    }
+
     void Start()
     {
         m_bgPanel = GameObject.Find("BGPanel").GetComponent<Image>();
@@ -31,6 +40,11 @@ public class ViewManager : MonoBehaviour
 		m_currentActivatePanel = panel;
 	}
 
+    public GameObject GetActivatePanel()
+    {
+        return m_currentActivatePanel;
+    }
+
     public void ResizeBGPanel(int destWidth, int destHeight)
     {
         m_bgPanel.rectTransform.sizeDelta = new Vector2(destWidth, destHeight);
@@ -50,6 +64,7 @@ public class ViewManager : MonoBehaviour
         newPanel.transform.SetParent(m_bgPanel.transform, false);
         newPanel.transform.position = position;
 
+        newPanel.AddComponent<DetailClickHandler>();
         SetActivatePanel(newPanel);
     }
 
