@@ -38,7 +38,10 @@ public class ViewManager : MonoBehaviour
 	public void SetActivatePanel(GameObject panel)
 	{
 		m_currentActivatePanel = panel;
-	}
+
+        CellPosAmender cellPosAmender = m_currentActivatePanel.GetComponent<CellPosAmender>();
+        cellPosAmender.m_amended = false;
+    }
 
     public GameObject GetActivatePanel()
     {
@@ -65,6 +68,7 @@ public class ViewManager : MonoBehaviour
         newPanel.transform.position = position;
 
         newPanel.AddComponent<DetailClickHandler>();
+        newPanel.AddComponent<MovePosByDrag>();
         SetActivatePanel(newPanel);
     }
 

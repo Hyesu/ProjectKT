@@ -4,12 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class MouseEventHandler : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class MouseEventHandler : MonoBehaviour, IPointerDownHandler
 {
-	void Start()
-	{
-	}
-
 	public void OnPointerDown(PointerEventData eventData)
 	{		
 		if (eventData.button == PointerEventData.InputButton.Right) // right btn clicked
@@ -28,19 +24,4 @@ public class MouseEventHandler : MonoBehaviour, IPointerDownHandler, IBeginDragH
 	{
 
 	}
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        Debug.Log("drag");
-    }
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-
-    }
 }
