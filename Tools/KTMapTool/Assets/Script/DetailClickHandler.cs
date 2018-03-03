@@ -4,13 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class DetailClickHandler : MonoBehaviour, IPointerClickHandler
+public class DetailClickHandler : MonoBehaviour, IPointerDownHandler
 {
-    // ui shortcuts
-
-    // public
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+            return;
+
+        Debug.Log("detail click handelr");
         StageDataManager.GetInstance().LoadDetailInfo(gameObject);
     }       
 }

@@ -4,13 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class MouseEventHandler : MonoBehaviour, IPointerDownHandler
+public class MouseEventHandler : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    Image m_bgPanel;	
-
 	void Start()
 	{
-        m_bgPanel = GameObject.Find ("BGPanel").GetComponent<Image> ();
 	}
 
 	public void OnPointerDown(PointerEventData eventData)
@@ -29,6 +26,21 @@ public class MouseEventHandler : MonoBehaviour, IPointerDownHandler
 
 	private void OnLBtnDown(PointerEventData eventData)
 	{
-        Debug.Log("left clicked: not implemented. todo: by drag and drop, move tiles");
+
 	}
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        Debug.Log("drag");
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+
+    }
 }

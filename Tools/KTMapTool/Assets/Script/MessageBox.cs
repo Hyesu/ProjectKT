@@ -26,13 +26,27 @@ public class MessageBox : MonoBehaviour
     {
         if (m_instance == null)
             m_instance = this;
-
-        m_ownerObj = GameObject.Find("MessageBoxObj");
-        m_infoText = GameObject.Find("InfoText").GetComponent<Text>();
         
-        m_ownerObj.SetActive(false);
+        if(GetOwnerObj() != null)
+            GetOwnerObj().SetActive(false);
     }
 
+    private GameObject GetOwnerObj()
+    {
+        if(m_ownerObj == null)
+            m_ownerObj = GameObject.Find("MessageBoxObj");
+
+        return m_ownerObj;
+    }
+
+    private Text GetInfoText()
+    {
+        if(m_infoText == null)
+            m_infoText = GameObject.Find("InfoText").GetComponent<Text>();
+
+        return m_infoText;
+    }
+    
     public void OKBtnClicked()
     {
         m_ownerObj.SetActive(false);
@@ -41,6 +55,6 @@ public class MessageBox : MonoBehaviour
     public void Show(string info)
     {
         m_ownerObj.SetActive(true);
-        m_infoText.text = info;
+        GetInfoText().text = info;
     }
 }
