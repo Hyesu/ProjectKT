@@ -52,6 +52,19 @@ public class ViewManager : MonoBehaviour
     {
         m_bgPanel.rectTransform.sizeDelta = new Vector2(destWidth, destHeight);
     }
+
+    public void ResizeTile(GameObject panel, int width, int height)
+    {
+        Image image = panel.GetComponent<Image>();
+        if (image == null)
+        {
+            image = panel.AddComponent<Image>();
+            image.rectTransform.pivot = new Vector2(0.0f, 0.0f);
+        }
+
+        image.rectTransform.sizeDelta = new Vector2(CellPosAmender.CELL_SIZE * width, CellPosAmender.CELL_SIZE * height);
+        image.color = Color.white;
+    }
     
     public void CreateObjectTile(int objIndex, Vector2 position)
     {
@@ -59,16 +72,15 @@ public class ViewManager : MonoBehaviour
         GameObject newPanel = new GameObject(panelName);
         CellPosAmender cellPosAmender = newPanel.AddComponent<CellPosAmender>();
         cellPosAmender.m_index = objIndex;
-
-        Image image = newPanel.AddComponent<Image>();
-        image.rectTransform.sizeDelta = new Vector2(CellPosAmender.CELL_SIZE, CellPosAmender.CELL_SIZE);
-        image.color = Color.white;
-
+        
+        ResizeTile(newPanel, 1, 1);
+        
         newPanel.transform.SetParent(m_bgPanel.transform, false);
-        newPanel.transform.position = position;
+        newPanel.transform.position = position;        
 
         newPanel.AddComponent<DetailClickHandler>();
         newPanel.AddComponent<MovePosByDrag>();
+        newPanel.AddComponent<ResizeByInputKey>();
         SetActivatePanel(newPanel);
     }
 

@@ -13,6 +13,7 @@ public class ObjectInfo
     public string texture;
     public string onCollisionScript;
 	public int offsetX, offsetY;
+    public int width, height;
     public bool isCollision;
 
 	public  ObjectInfo(Vector2 pos)
@@ -22,12 +23,34 @@ public class ObjectInfo
         this.texture = "null";
         this.onCollisionScript = "null";
         this.isCollision = false;
+        this.width = 1;
+        this.height = 1;
 	}
 
     public void SetOffset(int x, int y)
     {
         offsetX = x;
         offsetY = y;
+    }
+
+    public int AddWidth(int dx)
+    {
+        this.width += dx;
+
+        if (this.width < 1)
+            this.width = 1;
+
+        return this.width;
+    }
+
+    public int AddHeight(int dy)
+    {
+        this.height += dy;
+
+        if (this.height < 1)
+            this.height = 1;
+
+        return this.height;
     }
 }
 
