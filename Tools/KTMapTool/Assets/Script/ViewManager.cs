@@ -48,8 +48,10 @@ public class ViewManager : MonoBehaviour
         return m_currentActivatePanel;
     }
 
-    public void ResizeBGPanel(int destWidth, int destHeight)
+    public void ResizeBGPanel(int width, int height)
     {
+        int destWidth = width * CellPosAmender.CELL_SIZE;
+        int destHeight = height * CellPosAmender.CELL_SIZE;
         m_bgPanel.rectTransform.sizeDelta = new Vector2(destWidth, destHeight);
     }
 
