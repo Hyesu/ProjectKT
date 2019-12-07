@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+*/.vs/*
+*.sln
+*.pdb
+*/Intermediate/*
+*/Saved/*
