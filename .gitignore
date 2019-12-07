@@ -14,7 +14,6 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -37,5 +36,4 @@
 */Saved/*
 *AssetRegistryCache*
 *CachedAssetRegistry*
-*/Intermediate/Config/*
-*/Intermediate/ProjectFiles/*
+*/Intermediate/*
