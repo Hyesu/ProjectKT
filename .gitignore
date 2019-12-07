@@ -34,5 +34,8 @@
 */.vs/*
 *.sln
 *.pdb
-*/Intermediate/*
 */Saved/*
+*AssetRegistryCache*
+*CachedAssetRegistry*
+*/Intermediate/Config/*
+*/Intermediate/ProjectFiles/*

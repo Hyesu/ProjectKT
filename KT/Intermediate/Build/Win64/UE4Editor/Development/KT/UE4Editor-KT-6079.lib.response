@@ -1,0 +1,17 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-KT-6079.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\main\ProjectKT\KT\Intermediate\Build\Win64\KTEditor\Development\Engine\SharedPCH.Engine.h.obj"
+"C:\main\ProjectKT\KT\Intermediate\Build\Win64\UE4Editor\Development\KT\KT.cpp.obj"
+"C:\main\ProjectKT\KT\Intermediate\Build\Win64\UE4Editor\Development\KT\KTCharacter.cpp.obj"
+"C:\main\ProjectKT\KT\Intermediate\Build\Win64\UE4Editor\Development\KT\KTGameMode.cpp.obj"
+"C:\main\ProjectKT\KT\Intermediate\Build\Win64\UE4Editor\Development\KT\KT.init.gen.cpp.obj"
+"C:\main\ProjectKT\KT\Intermediate\Build\Win64\UE4Editor\Development\KT\KTCharacter.gen.cpp.obj"
+"C:\main\ProjectKT\KT\Intermediate\Build\Win64\UE4Editor\Development\KT\KTGameMode.gen.cpp.obj"
+"C:\main\ProjectKT\KT\Intermediate\Build\Win64\UE4Editor\Development\KT\PCLaunch.rc.res"
+/OUT:"C:\main\ProjectKT\KT\Intermediate\Build\Win64\UE4Editor\Development\KT\UE4Editor-KT-6079.lib"
