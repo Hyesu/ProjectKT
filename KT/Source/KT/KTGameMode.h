@@ -18,4 +18,6 @@ class AKTGameMode : public AGameModeBase
 	GENERATED_BODY()
 public:
 	AKTGameMode();
+
+	UClass* GetDefaultPawnClassForController_Implementation(AController* InController);
 };

@@ -8,3 +8,8 @@ AKTGameMode::AKTGameMode()
 	// Set default pawn class to our character
 	DefaultPawnClass = AKTCharacter::StaticClass();	
 }
+
+UClass* AKTGameMode::GetDefaultPawnClassForController_Implementation(AController* InController)
+{
+	return nullptr;
+}
