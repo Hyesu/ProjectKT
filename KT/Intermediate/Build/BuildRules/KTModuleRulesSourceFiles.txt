@@ -1,3 +1,0 @@
-C:\main\ProjectKT\KT\Source\KT\KT.Build.cs
-C:\main\ProjectKT\KT\Source\KT.Target.cs
-C:\main\ProjectKT\KT\Source\KTEditor.Target.cs
