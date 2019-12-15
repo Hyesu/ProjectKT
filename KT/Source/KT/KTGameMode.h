@@ -4,20 +4,27 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "KTCommonDefine.h"
 #include "KTGameMode.generated.h"
 
-/**
- * The GameMode defines the game being played. It governs the game rules, scoring, what actors
- * are allowed to exist in this game type, and who may enter the game.
- *
- * This game mode just sets the default pawn to be the MyCharacter asset, which is a subclass of KTCharacter
- */
+class UManagerBase;
 UCLASS(minimalapi)
 class AKTGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
+
+	DECL_SINGLETONE(AKTGameMode);
+
 public:
 	AKTGameMode();
 
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
+
 	UClass* GetDefaultPawnClassForController_Implementation(AController* InController);
+
+private:
+	void InitManager();
+
+	UPROPERTY()
+		TMap<UClass*, UManagerBase*> _managers;
 };
